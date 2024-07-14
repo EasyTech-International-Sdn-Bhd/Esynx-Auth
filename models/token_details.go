@@ -6,6 +6,7 @@ type TokenDetails struct {
 	AccessTokenUUID  string
 	RefreshTokenUUID string
 	UserCode         string
+	Server           string
 	AtExpires        int64
 	RtExpires        int64
 }

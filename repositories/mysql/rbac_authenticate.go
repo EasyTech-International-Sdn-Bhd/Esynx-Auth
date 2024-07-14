@@ -42,6 +42,7 @@ func (r *RbacAuthenticateRepository) Authenticate(userName, password string) (*m
 		UserCode:      user.UserCode,
 		ClientCompany: user.ClientCompany,
 		Metadata:      user.Metadata,
+		Server:        user.Server,
 	})
 	if err != nil {
 		return nil, err
@@ -69,6 +70,7 @@ func (r *RbacAuthenticateRepository) RefreshAuthentication(refreshToken string) 
 		UserCode:      user.UserCode,
 		ClientCompany: user.ClientCompany,
 		Metadata:      user.Metadata,
+		Server:        user.Server,
 	})
 	if err != nil {
 		return nil, err

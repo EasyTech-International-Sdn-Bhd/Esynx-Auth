@@ -54,6 +54,7 @@ func (r *RbacUsersRepository) CreateUser(info models.CreateRbacUser) error {
 		Password:       info.Password,
 		ClientCompany:  info.ClientCompany,
 		Metadata:       info.Metadata,
+		Server:         info.Server,
 		BiDealer:       info.BiDealer,
 		BiSubscription: info.BiSubscriptions,
 		BiState:        info.BiState,
@@ -77,6 +78,7 @@ func (r *RbacUsersRepository) UpdateUser(info models.UpdateRbacUser) error {
 	}
 	user.Password = info.Password
 	user.Metadata = info.Metadata
+	user.Server = info.Server
 	user.BiDealer = info.BiDealer
 	user.BiState = info.BiState
 	user.BiIndustry = info.BiIndustry

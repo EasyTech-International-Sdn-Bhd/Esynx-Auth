@@ -14,6 +14,7 @@ type RbacUsers struct {
 	ClientCompany  string    `xorm:"VARCHAR(50)"`
 	Metadata       string    `xorm:"JSON"`
 	ShortCode      string    `xorm:"VARCHAR(50)"`
+	Server         string    `xorm:"VARCHAR(50)"`
 	Deleted        int       `xorm:"default 0 TINYINT(1)"`
 	DeletedBy      string    `xorm:"VARCHAR(80)"`
 	DeletedAt      time.Time `xorm:"DATETIME"`

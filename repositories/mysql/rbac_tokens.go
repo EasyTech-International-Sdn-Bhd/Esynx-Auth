@@ -29,6 +29,7 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 		UserCode:         claimData.UserCode,
 		AtExpires:        atExpUnix,
 		RtExpires:        rtExpUnix,
+		Server:           claimData.Server,
 	}
 
 	var err error
@@ -36,6 +37,7 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 	claim["authorized"] = true
 	claim["user_code"] = claimData.UserCode
 	claim["metadata"] = claimData.Metadata
+	claim["server"] = claimData.Server
 	claim["client_company"] = claimData.ClientCompany
 	claim["exp"] = td.AtExpires
 
@@ -118,10 +120,15 @@ func (r *RbacTokenRepository) TokenClaims(accessToken string) (*models.RbacToken
 		if !ok {
 			return nil, fmt.Errorf("metadata not found in claims")
 		}
+		server, ok := claims["server"].(string)
+		if !ok {
+			return nil, fmt.Errorf("server not found in claims")
+		}
 		return &models.RbacTokenClaim{
 			UserCode:      userCode,
 			ClientCompany: clientCompany,
 			Metadata:      metadata,
+			Server:        server,
 		}, nil
 	}
 	return nil, err
