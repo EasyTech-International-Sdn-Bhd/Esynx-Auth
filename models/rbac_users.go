@@ -4,7 +4,7 @@ type CreateRbacUser struct {
 	Username        string
 	Password        string
 	ClientCompany   string
-	Metadata        map[string]interface{}
+	Metadata        string
 	BiDealer        string
 	BiSubscriptions string
 	BiState         string
@@ -16,8 +16,7 @@ type CreateRbacUser struct {
 type UpdateRbacUser struct {
 	UserCode        string
 	Password        string
-	ClientCompany   string
-	Metadata        map[string]interface{}
+	Metadata        string
 	BiDealer        string
 	BiSubscriptions string
 	BiState         string

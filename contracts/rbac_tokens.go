@@ -1,10 +1,15 @@
 package contracts
 
-import "github.com/easytech-international-sdn-bhd/esynx-auth/entities"
+import (
+	"github.com/easytech-international-sdn-bhd/esynx-auth/models"
+	"github.com/golang-jwt/jwt/v5"
+)
 
 type IRbacTokens interface {
-	CreateToken(userCode string, claimData map[string]interface{}) error
+	CreateToken(claimData *models.RbacTokenClaim) (*models.Authenticated, error)
+	TokenClaims(accessToken string) (*models.RbacTokenClaim, error)
 	DeleteToken(userCode string) error
-	GetToken(userCode string) (string, error)
-	GetUserByToken(token string) (*entities.RbacUsers, error)
+	VerifyToken(token string) (*jwt.Token, error)
+	IsTokenValid(token string) error
+	GetAccessToken(refreshToken string) (string, error)
 }

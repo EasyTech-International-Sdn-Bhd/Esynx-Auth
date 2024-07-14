@@ -17,6 +17,6 @@ func (m *RbacPermissions) TableName() string {
 	return "rbac_permissions"
 }
 
-func (m *RbacPermissions) UuidCode() {
+func (m *RbacPermissions) ToCreate() {
 	m.PermissionCode = uuid.New().URN()
 }
