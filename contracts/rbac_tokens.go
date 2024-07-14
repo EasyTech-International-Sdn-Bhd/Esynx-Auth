@@ -11,5 +11,5 @@ type IRbacTokens interface {
 	DeleteToken(userCode string) error
 	VerifyToken(token string) (*jwt.Token, error)
 	IsTokenValid(token string) error
-	GetAccessToken(refreshToken string) (string, error)
+	GetAccessToken(refreshToken string) (*string, error)
 }
