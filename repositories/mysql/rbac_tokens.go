@@ -149,7 +149,7 @@ func (r *RbacTokenRepository) VerifyToken(uToken string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return r.option.JwtSecret, nil
+		return []byte(r.option.JwtSecret), nil
 	})
 	if err != nil {
 		return nil, err
