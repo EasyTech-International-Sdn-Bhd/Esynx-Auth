@@ -3,6 +3,7 @@ package entities
 import (
 	"encoding/base64"
 	"github.com/google/uuid"
+	"strings"
 	"time"
 )
 
@@ -38,7 +39,7 @@ func (m *RbacUsers) ToCreate(createdBy string) {
 	m.CreatedBy = createdBy
 	m.UpdatedBy = createdBy
 	m.UpdatedAt = time.Now()
-	m.ShortCode = base64.URLEncoding.EncodeToString([]byte(m.UserCode[:]))[:8]
+	m.ShortCode = strings.ToUpper(base64.URLEncoding.EncodeToString([]byte(m.UserCode[:]))[:8])
 }
 
 func (m *RbacUsers) ToUpdate(updatedBy string) {
