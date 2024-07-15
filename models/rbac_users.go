@@ -10,7 +10,6 @@ type CreateRbacUser struct {
 	BiSubscriptions string
 	BiState         string
 	BiIndustry      string
-	ShortCode       string
 	CreatedBy       string
 }
 
