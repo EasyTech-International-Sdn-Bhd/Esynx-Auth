@@ -83,9 +83,15 @@ func (r *RbacAuthenticateRepository) RefreshAuthentication(refreshToken string) 
 }
 
 func (r *RbacAuthenticateRepository) GetUserRolesPermission(user *entities.RbacUsers, result *models.Authenticated) error {
+	result.Permissions = make([]*entities.RbacPermissions, 0)
+	result.Roles = make([]*entities.RbacRoles, 0)
+
 	userRoles, err := r.ur.GetByUser(user.UserCode)
 	if err != nil {
 		return err
+	}
+	if len(userRoles) == 0 {
+		return nil
 	}
 	rolePerm, err := r.rp.GetMany(iterator.Map(userRoles, func(item *entities.RbacUserRoles) string {
 		return item.RoleCode
@@ -93,11 +99,17 @@ func (r *RbacAuthenticateRepository) GetUserRolesPermission(user *entities.RbacU
 	if err != nil {
 		return err
 	}
+	if len(rolePerm) == 0 {
+		return nil
+	}
 	permissions, err := r.p.GetMany(iterator.Map(rolePerm, func(item *entities.RbacRolesPermissions) string {
 		return item.PermissionCode
 	}))
 	if err != nil {
 		return err
+	}
+	if len(permissions) == 0 {
+		return nil
 	}
 	roles, err := r.rl.GetMany(iterator.Map(userRoles, func(item *entities.RbacUserRoles) string {
 		return item.RoleCode
