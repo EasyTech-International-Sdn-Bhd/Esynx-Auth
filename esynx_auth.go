@@ -23,7 +23,7 @@ type EsynxAuth struct {
 func NewEsynxAuthProvider(session contracts.IUserSession) (*EsynxAuth, error) {
 	if session.GetStore() == options.MySQL {
 		db := mysql.NewMySqlDb()
-		err := db.Open(session.GetConnection())
+		err := db.Open(session.GetConnection(), session.GetLogger())
 		if err != nil {
 			return nil, err
 		}
