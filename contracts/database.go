@@ -13,11 +13,11 @@ type IUserSession interface {
 	GetConnection() string
 	GetJwtSecret() string
 	GetRedisConfig() models.RedisConfig
-	GetLogger() *IDatabaseLogger
+	GetLogger() IDatabaseLogger
 }
 
 type IDatabase interface {
-	Open(conn string, logger *IDatabaseLogger) error
+	Open(conn string, logger IDatabaseLogger) error
 	DefineSchema() error
 	Close() error
 }
