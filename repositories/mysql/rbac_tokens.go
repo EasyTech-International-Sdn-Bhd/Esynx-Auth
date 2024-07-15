@@ -68,15 +68,25 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 	if err != nil {
 		return nil, err
 	}
-	_, err = r.option.Db.InsertOne(&entities.RbacTokens{
+	exist, err := r.option.Db.Exist(&entities.RbacTokens{
 		UserCode:     claimData.UserCode,
 		RefreshToken: td.RefreshToken,
-		IssuedAt:     time.Now(),
-		ExpiresAt:    time.Unix(rtExpUnix, 0),
 	})
 	if err != nil {
 		return nil, err
 	}
+	if exist == false {
+		_, err = r.option.Db.InsertOne(&entities.RbacTokens{
+			UserCode:     claimData.UserCode,
+			RefreshToken: td.RefreshToken,
+			IssuedAt:     time.Now(),
+			ExpiresAt:    time.Unix(rtExpUnix, 0),
+		})
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return &models.Authenticated{
 		AccessToken:  td.AccessToken,
 		RefreshToken: td.RefreshToken,
