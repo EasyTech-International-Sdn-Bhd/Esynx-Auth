@@ -3,7 +3,6 @@ package contracts
 import (
 	"github.com/easytech-international-sdn-bhd/esynx-auth/models"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/options"
-	"xorm.io/xorm/log"
 )
 
 type IUserSession interface {
@@ -13,11 +12,11 @@ type IUserSession interface {
 	GetConnection() string
 	GetJwtSecret() string
 	GetRedisConfig() models.RedisConfig
-	GetLogger() *log.Logger
+	GetLogger() *interface{}
 }
 
 type IDatabase interface {
-	Open(conn string, logger *log.Logger) error
+	Open(conn string, logger *interface{}) error
 	DefineSchema() error
 	Close() error
 }
