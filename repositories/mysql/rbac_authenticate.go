@@ -54,7 +54,7 @@ func (r *RbacAuthenticateRepository) Authenticate(userName, password string) (*m
 	return tokenPair, nil
 }
 
-func (r *RbacAuthenticateRepository) RefreshAuthentication(refreshToken string) (*models.Authenticated, error) {
+func (r *RbacAuthenticateRepository) RefreshAuthentication(refreshToken string) (*models.RefreshAuthentication, error) {
 	userCode, err := r.t.RefreshTokenClaims(refreshToken)
 	if err != nil {
 		return nil, err
@@ -75,11 +75,7 @@ func (r *RbacAuthenticateRepository) RefreshAuthentication(refreshToken string) 
 	if err != nil {
 		return nil, err
 	}
-	err = r.GetUserRolesPermission(user, tokenPair)
-	if err != nil {
-		return nil, err
-	}
-	return tokenPair, nil
+	return &models.RefreshAuthentication{AccessToken: tokenPair.AccessToken}, nil
 }
 
 func (r *RbacAuthenticateRepository) GetUserRolesPermission(user *entities.RbacUsers, result *models.Authenticated) error {

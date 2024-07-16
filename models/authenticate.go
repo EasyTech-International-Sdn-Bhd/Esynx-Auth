@@ -8,3 +8,7 @@ type Authenticated struct {
 	Roles        []*entities.RbacRoles
 	Permissions  []*entities.RbacPermissions
 }
+
+type RefreshAuthentication struct {
+	AccessToken string
+}
