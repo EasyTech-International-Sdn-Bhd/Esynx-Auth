@@ -28,7 +28,7 @@ func (r *RbacRolesRepository) CreateRole(info *entities.RbacRoles) error {
 	if res != nil {
 		return errors.New("role already exists")
 	}
-	info.ToCreate()
+	info.BeforeInsert()
 	_, err = r.option.Db.InsertOne(info)
 	if err != nil {
 		return err

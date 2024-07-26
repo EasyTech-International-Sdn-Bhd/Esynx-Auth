@@ -60,7 +60,7 @@ func (r *RbacUsersRepository) CreateUser(info models.CreateRbacUser) error {
 		BiState:        info.BiState,
 		BiIndustry:     info.BiIndustry,
 	}
-	newUser.ToCreate(info.CreatedBy)
+	newUser.BeforeInsert(info.CreatedBy)
 	_, err = r.option.Db.InsertOne(&newUser)
 	if err != nil {
 		return err
@@ -82,7 +82,7 @@ func (r *RbacUsersRepository) UpdateUser(info models.UpdateRbacUser) error {
 	user.BiDealer = info.BiDealer
 	user.BiState = info.BiState
 	user.BiIndustry = info.BiIndustry
-	user.ToUpdate(info.UpdatedBy)
+	user.BeforeUpdate(info.UpdatedBy)
 	_, err = r.option.Db.Where("user_code = ?", info.UserCode).Update(&user)
 	if err != nil {
 		return err

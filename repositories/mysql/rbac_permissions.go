@@ -59,7 +59,7 @@ func (r *RbacPermissionsRepository) CreatePermission(perm *entities.RbacPermissi
 	if res != nil {
 		return errors.New("permission already exists")
 	}
-	perm.ToCreate()
+	perm.BeforeInsert()
 	_, err = r.option.Db.InsertOne(perm)
 	if err != nil {
 		return err
