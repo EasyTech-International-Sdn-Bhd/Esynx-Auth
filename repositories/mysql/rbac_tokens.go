@@ -3,7 +3,6 @@ package mysql
 import (
 	"fmt"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/contracts"
-	"github.com/easytech-international-sdn-bhd/esynx-auth/entities"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/models"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/utils"
 	"github.com/golang-jwt/jwt/v5"
@@ -68,7 +67,7 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 	if err != nil {
 		return nil, err
 	}
-	exist, err := r.option.Db.Exist(&entities.RbacTokens{
+	/*exist, err := r.option.Db.Exist(&entities.RbacTokens{
 		UserCode:     claimData.UserCode,
 		RefreshToken: td.RefreshToken,
 	})
@@ -85,7 +84,7 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 		if err != nil {
 			return nil, err
 		}
-	}
+	}*/
 
 	return &models.Authenticated{
 		AccessToken:  td.AccessToken,
