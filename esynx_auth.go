@@ -32,7 +32,7 @@ func NewEsynxTokenProvider(session contracts.IUserSession) (*EsynxAuth, error) {
 	}
 	return &EsynxAuth{
 		engine:               nil,
-		Auth:                 nil,
+		Auth:                 mysql.NewRbacAuthenticateRepository(&userOptions),
 		RbacPermissions:      nil,
 		RbacRoles:            nil,
 		RbacRolesPermissions: nil,
