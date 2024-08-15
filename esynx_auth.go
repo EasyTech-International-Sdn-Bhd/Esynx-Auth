@@ -20,7 +20,7 @@ type EsynxAuth struct {
 	RbacUsers            contracts.IRbacUsers
 }
 
-func NewEsynxTokenProvider(session contracts.IUserSession) contracts.IRbacTokens {
+func NewEsynxTokenProvider(session contracts.IUserSession) (*EsynxAuth, error) {
 	ctx := context.Background()
 	memDb := redis.NewRedis(ctx, session.GetRedisConfig())
 	userOptions := contracts.IRepository{
@@ -30,7 +30,16 @@ func NewEsynxTokenProvider(session contracts.IUserSession) contracts.IRbacTokens
 		JwtSecret:   session.GetJwtSecret(),
 		RedisClient: memDb,
 	}
-	return mysql.NewRbacTokenRepository(&userOptions)
+	return &EsynxAuth{
+		engine:               nil,
+		Auth:                 nil,
+		RbacPermissions:      nil,
+		RbacRoles:            nil,
+		RbacRolesPermissions: nil,
+		RbacTokens:           mysql.NewRbacTokenRepository(&userOptions),
+		RbacUserRoles:        nil,
+		RbacUsers:            nil,
+	}, nil
 }
 
 func NewEsynxAuthProvider(session contracts.IUserSession) (*EsynxAuth, error) {
