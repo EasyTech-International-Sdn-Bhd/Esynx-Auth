@@ -12,4 +12,5 @@ type IRbacTokens interface {
 	VerifyToken(token string) (*jwt.Token, error)
 	IsTokenValid(token string) error
 	GetAccessToken(refreshToken string) (*string, error)
+	RefreshTokenClaims(refreshToken string) (*string, error)
 }
