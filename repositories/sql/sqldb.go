@@ -1,23 +1,23 @@
-package mysql
+package sql
 
 import (
 	"database/sql"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/contracts"
 	migrate "github.com/easytech-international-sdn-bhd/esynx-auth/migrate/sql"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 	"xorm.io/xorm"
 )
 
-type MySqlDb struct {
+type SqlDb struct {
 	Engine *xorm.Engine
 }
 
-func NewMySqlDb() *MySqlDb {
-	return &MySqlDb{}
+func NewSqlDb() *SqlDb {
+	return &SqlDb{}
 }
 
-func (m *MySqlDb) Open(conn string, logger contracts.IDatabaseLogger) (err error) {
-	m.Engine, err = xorm.NewEngine("mysql", conn, func(db *sql.DB) error {
+func (m *SqlDb) Open(conn string, logger contracts.IDatabaseLogger) (err error) {
+	m.Engine, err = xorm.NewEngine("postgres", conn, func(db *sql.DB) error {
 		db.SetMaxOpenConns(1)
 		db.SetMaxIdleConns(1)
 		err := db.Ping()
@@ -37,11 +37,11 @@ func (m *MySqlDb) Open(conn string, logger contracts.IDatabaseLogger) (err error
 	return nil
 }
 
-func (m *MySqlDb) DefineSchema() error {
+func (m *SqlDb) DefineSchema() error {
 	return migrate.DefineSchema(m.Engine)
 }
 
-func (m *MySqlDb) Close() error {
+func (m *SqlDb) Close() error {
 	err := m.Engine.Close()
 	if err != nil {
 		return err

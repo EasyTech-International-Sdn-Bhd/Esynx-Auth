@@ -5,8 +5,8 @@ import (
 	"github.com/easytech-international-sdn-bhd/esynx-auth/contracts"
 	migrate "github.com/easytech-international-sdn-bhd/esynx-auth/migrate/sql"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/options"
-	"github.com/easytech-international-sdn-bhd/esynx-auth/repositories/mysql"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/repositories/redis"
+	"github.com/easytech-international-sdn-bhd/esynx-auth/repositories/sql"
 )
 
 type EsynxAuth struct {
@@ -20,31 +20,9 @@ type EsynxAuth struct {
 	RbacUsers            contracts.IRbacUsers
 }
 
-func NewEsynxTokenProvider(session contracts.IUserSession) (*EsynxAuth, error) {
-	ctx := context.Background()
-	memDb := redis.NewRedis(ctx, session.GetRedisConfig())
-	userOptions := contracts.IRepository{
-		Db:          nil,
-		User:        session.GetUser(),
-		AppName:     session.GetApp(),
-		JwtSecret:   session.GetJwtSecret(),
-		RedisClient: memDb,
-	}
-	return &EsynxAuth{
-		engine:               nil,
-		Auth:                 mysql.NewRbacAuthenticateRepository(&userOptions),
-		RbacPermissions:      nil,
-		RbacRoles:            nil,
-		RbacRolesPermissions: nil,
-		RbacTokens:           mysql.NewRbacTokenRepository(&userOptions),
-		RbacUserRoles:        nil,
-		RbacUsers:            nil,
-	}, nil
-}
-
 func NewEsynxAuthProvider(session contracts.IUserSession) (*EsynxAuth, error) {
-	if session.GetStore() == options.MySQL {
-		db := mysql.NewMySqlDb()
+	if session.GetStore() == options.SqlDb {
+		db := sql.NewSqlDb()
 		err := db.Open(session.GetConnection(), session.GetLogger())
 		if err != nil {
 			return nil, err
@@ -64,13 +42,13 @@ func NewEsynxAuthProvider(session contracts.IUserSession) (*EsynxAuth, error) {
 		}
 		return &EsynxAuth{
 			engine:               db,
-			Auth:                 mysql.NewRbacAuthenticateRepository(&userOptions),
-			RbacPermissions:      mysql.NewRbacPermissionsRepository(&userOptions),
-			RbacRoles:            mysql.NewRbacRolesRepository(&userOptions),
-			RbacRolesPermissions: mysql.NewRbacRolesPermissionsRepository(&userOptions),
-			RbacTokens:           mysql.NewRbacTokenRepository(&userOptions),
-			RbacUserRoles:        mysql.NewRbacUserRolesRepository(&userOptions),
-			RbacUsers:            mysql.NewRbacUsersRepository(&userOptions),
+			Auth:                 sql.NewRbacAuthenticateRepository(&userOptions),
+			RbacPermissions:      sql.NewRbacPermissionsRepository(&userOptions),
+			RbacRoles:            sql.NewRbacRolesRepository(&userOptions),
+			RbacRolesPermissions: sql.NewRbacRolesPermissionsRepository(&userOptions),
+			RbacTokens:           sql.NewRbacTokenRepository(&userOptions),
+			RbacUserRoles:        sql.NewRbacUserRolesRepository(&userOptions),
+			RbacUsers:            sql.NewRbacUsersRepository(&userOptions),
 		}, nil
 	}
 	if session.GetStore() == options.Firestore {

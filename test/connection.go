@@ -37,17 +37,12 @@ func (a *AuthSession) GetApp() string {
 }
 
 func (a *AuthSession) GetStore() options.DatabaseStore {
-	return options.MySQL
+	return options.SqlDb
 }
 
 func (a *AuthSession) GetConnection() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local&timeout=2s",
-		"root",
-		"mysql",
-		"localhost",
-		3306,
-		"esynx",
-	)
+	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		"xxxx", 5432, "root", "xxx", "esynx")
 }
 
 func (a *AuthSession) GetLogger() contracts.IDatabaseLogger {

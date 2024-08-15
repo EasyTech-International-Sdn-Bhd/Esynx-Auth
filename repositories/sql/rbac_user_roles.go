@@ -1,4 +1,4 @@
-package mysql
+package sql
 
 import (
 	"github.com/easytech-international-sdn-bhd/esynx-auth/contracts"

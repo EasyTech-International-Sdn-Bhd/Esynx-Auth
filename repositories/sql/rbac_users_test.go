@@ -1,4 +1,4 @@
-package mysql
+package sql
 
 import (
 	"github.com/easytech-international-sdn-bhd/esynx-auth/models"
@@ -9,8 +9,14 @@ import (
 
 func TestRbacUsersRepository_CreateUser(t *testing.T) {
 	session, config := test.NewTestAuthProvider()
-	db := NewMySqlDb()
+	db := NewSqlDb()
 	err := db.Open(config.GetConnection(), config.GetLogger())
+	if err != nil {
+		t.Error(err)
+		t.Fail()
+		return
+	}
+	err = db.DefineSchema()
 	if err != nil {
 		t.Error(err)
 		t.Fail()
