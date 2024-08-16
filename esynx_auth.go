@@ -21,30 +21,25 @@ type EsynxAuth struct {
 }
 
 func NewEsynxTokenProvider(session contracts.IUserSession) (*EsynxAuth, error) {
-	if session.GetStore() == options.SqlDb {
-		ctx := context.Background()
-		memDb := redis.NewRedis(ctx, session.GetRedisConfig())
-		userOptions := contracts.IRepository{
-			Db:          nil,
-			User:        session.GetUser(),
-			AppName:     session.GetApp(),
-			JwtSecret:   session.GetJwtSecret(),
-			RedisClient: memDb,
-		}
-		return &EsynxAuth{
-			engine:               nil,
-			Auth:                 nil,
-			RbacPermissions:      nil,
-			RbacRoles:            nil,
-			RbacRolesPermissions: nil,
-			RbacTokens:           sql.NewRbacTokenRepository(&userOptions),
-			RbacUserRoles:        nil,
-			RbacUsers:            nil,
-		}, nil
-	} else {
-
+	ctx := context.Background()
+	memDb := redis.NewRedis(ctx, session.GetRedisConfig())
+	userOptions := contracts.IRepository{
+		Db:          nil,
+		User:        session.GetUser(),
+		AppName:     session.GetApp(),
+		JwtSecret:   session.GetJwtSecret(),
+		RedisClient: memDb,
 	}
-	return nil, nil
+	return &EsynxAuth{
+		engine:               nil,
+		Auth:                 nil,
+		RbacPermissions:      nil,
+		RbacRoles:            nil,
+		RbacRolesPermissions: nil,
+		RbacTokens:           sql.NewRbacTokenRepository(&userOptions),
+		RbacUserRoles:        nil,
+		RbacUsers:            nil,
+	}, nil
 }
 
 func NewEsynxAuthProvider(session contracts.IUserSession) (*EsynxAuth, error) {

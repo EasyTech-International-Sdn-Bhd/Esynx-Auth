@@ -18,7 +18,7 @@ func NewRbacTokenRepository(option *contracts.IRepository) *RbacTokenRepository 
 }
 
 func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*models.Authenticated, error) {
-	atExpUnix := time.Now().Add(time.Minute * 15).Unix()
+	atExpUnix := time.Now().Add(time.Hour * 24).Unix()
 	rtExpUnix := time.Now().Add(time.Hour * 24 * 7).Unix()
 	td := &models.TokenDetails{
 		AccessToken:      "",
