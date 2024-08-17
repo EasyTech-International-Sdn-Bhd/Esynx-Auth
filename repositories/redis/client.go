@@ -17,14 +17,15 @@ func NewRedis(ctx context.Context, config models.RedisConfig) *RedisInstance {
 	return &RedisInstance{
 		ctx: ctx,
 		Client: _redis.NewClient(&_redis.Options{
-			Addr:         fmt.Sprintf("%s:%d", config.Host, config.Port),
-			Password:     config.Pass,
-			DB:           1,
-			DialTimeout:  config.DialTimeout,
-			ReadTimeout:  config.ReadTimeout,
-			WriteTimeout: config.WriteTimeout,
-			PoolSize:     config.PoolSize,
-			PoolTimeout:  config.PoolTimeout,
+			Addr:           fmt.Sprintf("%s:%d", config.Host, config.Port),
+			Password:       config.Pass,
+			DB:             1,
+			DialTimeout:    config.DialTimeout,
+			ReadTimeout:    config.ReadTimeout,
+			WriteTimeout:   config.WriteTimeout,
+			PoolSize:       config.PoolSize,
+			PoolTimeout:    config.PoolTimeout,
+			MaxActiveConns: 1,
 		}),
 	}
 }

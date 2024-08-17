@@ -68,6 +68,9 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 		return nil, err
 	}
 
+	redisClient := r.option.RedisClient.Client
+	_ = redisClient.Close()
+
 	return &models.Authenticated{
 		AccessToken:  td.AccessToken,
 		RefreshToken: td.RefreshToken,
@@ -172,5 +175,7 @@ func (r *RbacTokenRepository) GetAccessToken(refreshToken string) (*string, erro
 	if err != nil {
 		return nil, err
 	}
+	redisClient := r.option.RedisClient.Client
+	_ = redisClient.Close()
 	return &res, nil
 }
