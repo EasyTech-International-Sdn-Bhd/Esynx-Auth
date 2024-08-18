@@ -51,6 +51,7 @@ func (r *RbacAuthenticateRepository) Authenticate(userName, password string) (*m
 	if err != nil {
 		return nil, err
 	}
+	tokenPair.ClientId = user.ClientCompany
 	return tokenPair, nil
 }
 

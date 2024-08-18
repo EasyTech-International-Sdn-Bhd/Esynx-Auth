@@ -7,6 +7,7 @@ type Authenticated struct {
 	RefreshToken string                      `json:"refreshToken,omitempty" xml:"refreshToken"`
 	Roles        []*entities.RbacRoles       `json:"roles,omitempty" xml:"roles"`
 	Permissions  []*entities.RbacPermissions `json:"permissions,omitempty" xml:"permissions"`
+	ClientId     string                      `json:"clientId,omitempty" xml:"clientId,omitempty"`
 }
 
 type RefreshAuthentication struct {

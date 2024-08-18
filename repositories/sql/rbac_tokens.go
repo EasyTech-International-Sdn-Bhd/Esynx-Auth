@@ -76,6 +76,7 @@ func (r *RbacTokenRepository) CreateToken(claimData *models.RbacTokenClaim) (*mo
 		RefreshToken: td.RefreshToken,
 		Roles:        nil,
 		Permissions:  nil,
+		ClientId:     "",
 	}, nil
 }
 
