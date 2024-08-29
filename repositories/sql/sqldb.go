@@ -19,7 +19,7 @@ func NewSqlDb() *SqlDb {
 func (m *SqlDb) Open(conn string, logger contracts.IDatabaseLogger) (err error) {
 	m.Engine, err = xorm.NewEngine("postgres", conn, func(db *sql.DB) error {
 		db.SetMaxOpenConns(1)
-		db.SetMaxIdleConns(1)
+		db.SetMaxIdleConns(0)
 		err := db.Ping()
 		if err != nil {
 			return err
