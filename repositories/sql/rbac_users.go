@@ -2,6 +2,7 @@ package sql
 
 import (
 	"errors"
+	"fmt"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/contracts"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/entities"
 	"github.com/easytech-international-sdn-bhd/esynx-auth/models"
@@ -48,6 +49,30 @@ func (r *RbacUsersRepository) CreateUser(info models.CreateRbacUser) error {
 	}
 	if user != nil {
 		return errors.New("user already exists")
+	}
+
+	var serviceAccounts []entities.RbacUsers
+	has, err := r.option.Db.Where("client_company = ? AND deleted = 0 AND metadata->>'accountType' = 'Service'", info.ClientCompany).Get(&serviceAccounts)
+	if err != nil {
+		return fmt.Errorf("error getting service accounts: %w", err)
+	}
+	if !has {
+		serviceAccount := entities.RbacUsers{
+			Username:       "serviceAccount",
+			Password:       "******",
+			ClientCompany:  info.ClientCompany,
+			Metadata:       `{"accountType": "Service"}`,
+			Server:         info.Server,
+			BiDealer:       info.BiDealer,
+			BiSubscription: info.BiSubscriptions,
+			BiState:        info.BiState,
+			BiIndustry:     info.BiIndustry,
+		}
+		serviceAccount.BeforeInsert(info.CreatedBy)
+		_, err = r.option.Db.InsertOne(&serviceAccount)
+		if err != nil {
+			return fmt.Errorf("error creating service account: %w", err)
+		}
 	}
 	newUser := entities.RbacUsers{
 		Username:       info.Username,
