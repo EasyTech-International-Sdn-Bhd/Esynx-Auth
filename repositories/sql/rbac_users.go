@@ -70,7 +70,7 @@ func (r *RbacUsersRepository) CreateUser(info models.CreateRbacUser) error {
 			Username:       "serviceAccount",
 			Password:       "******",
 			ClientCompany:  info.ClientCompany,
-			Metadata:       `{"accountType": "Service"}`,
+			Metadata:       `{"accountType":"Service"}`,
 			Server:         info.Server,
 			BiDealer:       info.BiDealer,
 			BiSubscription: info.BiSubscriptions,
