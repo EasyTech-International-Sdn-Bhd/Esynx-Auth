@@ -16,6 +16,15 @@ func NewRbacUsersRepository(option *contracts.IRepository) *RbacUsersRepository 
 	return &RbacUsersRepository{option}
 }
 
+func (r *RbacUsersRepository) GetServiceAccounts() ([]*entities.RbacUsers, error) {
+	var users []*entities.RbacUsers
+	err := r.option.Db.Where("metadata->>'accountType' = 'Service' AND deleted = 0").Find(&users)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
 func (r *RbacUsersRepository) Get(userName, password string) (*entities.RbacUsers, error) {
 	var user entities.RbacUsers
 	has, err := r.option.Db.Where("username = ? AND password = ? AND deleted = ?", userName, password, 0).Get(&user)
