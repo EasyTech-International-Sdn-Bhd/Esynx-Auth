@@ -51,7 +51,7 @@ func (r *RbacUsersRepository) CreateUser(info models.CreateRbacUser) error {
 		return errors.New("user already exists")
 	}
 
-	var serviceAccounts []entities.RbacUsers
+	var serviceAccounts entities.RbacUsers
 	has, err := r.option.Db.Where("client_company = ? AND deleted = 0 AND metadata->>'accountType' = 'Service'", info.ClientCompany).Get(&serviceAccounts)
 	if err != nil {
 		return fmt.Errorf("error getting service accounts: %w", err)
